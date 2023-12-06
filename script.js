@@ -9,6 +9,31 @@ function submitScore() {
   );
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Fetch JSON data
+    fetch('https://wp.arashbesharat.com/wp-json/leaderboard/v1/leaderboard')
+      .then(response => response.json())
+      .then(data => {
+        // Generate the list
+        generateList(data);
+      })
+      .catch(error => {
+        console.error('Error fetching JSON:', error);
+      });
+  
+    // Function to generate the list
+    function generateList(jsonData) {
+      const listContainer = document.getElementById('jsonList');
+  
+      // Iterate through the JSON data and create list items
+      jsonData.forEach(item => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `name: ${item.name} score: ${item.score}`;
+        listContainer.appendChild(listItem);
+      });
+    }
+  });
+
 //board
 let board;
 let boardWidth = 1000;
