@@ -1,0 +1,65 @@
+body {
+    font-family:'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+#board {
+    /* background-color: skyblue; */
+    background-image: url("./hyperbirdbg.jpg");
+    background-size: cover;
+}
+.header{
+    margin-top: 30px;
+}
+#title{
+    font-size: 100px;
+    color: #ff2d75;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: #0c192c;
+  }
+  .background {
+    position: relative;
+    width: 100%;
+   margin-top: 100px;
+   
+    overflow: hidden;
+  }
+  .bubbles {
+    position: absolute;
+    display: flex;
+  }
+  .bubbles span {
+    position: relative;
+  
+    width: 25px;
+    height: 25px;
+    background: #4fc3dc;
+    margin: 0;
+    border-radius: 100%;
+    box-shadow: 0 0 0 10px #4fc3dc44, 0 0 45px #4fc3dc, 0 0 100px #a9e5f2;
+    animation: animate 15s linear infinite;
+    animation-duration: calc(900s / var(--i));
+  }
+  .bubbles span:nth-child(even) {
+    background: #ff2d75;
+    box-shadow: 0 0 0 10px #ff2d7544, 0 0 50px #ff2d75,
+      0 0 100px rgb(227, 78, 130);
+    animation-duration: calc(900s / var(--i));
+  }
+  @keyframes animate {
+    0% {
+      transform: translateY(110vh) scale(0);
+    }
+    200% {
+      transform: translateY(-200vh) scale(1);
+    }
+  }
+  
+  
