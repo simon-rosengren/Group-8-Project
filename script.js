@@ -2,6 +2,7 @@
 function submitScore() {
   // Get data from the input field
   let inputData = document.getElementById("data").value;
+  localStorage.setItem('name', inputData)
 
   // Make an API request (using the Fetch API in this example)
   fetch(
@@ -9,30 +10,31 @@ function submitScore() {
   );
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Fetch JSON data
-    fetch('https://wp.arashbesharat.com/wp-json/leaderboard/v1/leaderboard')
-      .then(response => response.json())
-      .then(data => {
-        // Generate the list
-        generateList(data);
-      })
-      .catch(error => {
-        console.error('Error fetching JSON:', error);
-      });
-  
-    // Function to generate the list
-    function generateList(jsonData) {
-      const listContainer = document.getElementById('jsonList');
-  
-      // Iterate through the JSON data and create list items
-      jsonData.forEach(item => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `name: ${item.name} score: ${item.score}`;
-        listContainer.appendChild(listItem);
-      });
-    }
-  });
+//Leaderboard
+document.addEventListener("DOMContentLoaded", function () {
+  // Fetch JSON data
+  fetch("https://wp.arashbesharat.com/wp-json/leaderboard/v1/leaderboard")
+    .then((response) => response.json())
+    .then((data) => {
+      // Generate the list
+      generateList(data);
+    })
+    .catch((error) => {
+      console.error("Error fetching JSON:", error);
+    });
+
+  // Function to generate the list
+  function generateList(jsonData) {
+    const listContainer = document.getElementById("jsonList");
+
+    // Iterate through the JSON data and create list items
+    jsonData.forEach((item) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = `name: ${item.name} score: ${item.score}`;
+      listContainer.appendChild(listItem);
+    });
+  }
+});
 
 //board
 let board;
@@ -188,7 +190,7 @@ function placePipes() {
   //To make the Pipes Y position be different each time we have to randomize the Y position
   //Takes value of pipeY and depending on the outcome of Math.random will place the pipe further up or down on the screen
   let randomPipeY = pipeY - pipeHeight / 4 - Math.random() * (pipeHeight / 2);
-  let openingSpace = board.height / 4;
+  let openingSpace = board.height / 3;
 
   //Creates a top pipe and pushes it into the pipe array to be rendered
   let topPipe = {
