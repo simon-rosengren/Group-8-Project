@@ -1,40 +1,37 @@
 //test function to send data
 function submitScore() {
-  // Get data from the input field
-  let inputData = document.getElementById("data").value;
-  localStorage.setItem('name', inputData)
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+  var raw = JSON.stringify({
+    "name": name,
+    "score": score
+  });
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+  };
+  fetch("https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
 
-  // Make an API request (using the Fetch API in this example)
-  fetch(
-    `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${inputData}&score=${score}`
-  );
 }
 
 //Leaderboard
-document.addEventListener("DOMContentLoaded", function () {
-  // Fetch JSON data
-  fetch("https://wp.arashbesharat.com/wp-json/leaderboard/v1/leaderboard")
-    .then((response) => response.json())
-    .then((data) => {
-      // Generate the list
-      generateList(data);
-    })
-    .catch((error) => {
-      console.error("Error fetching JSON:", error);
-    });
+async function getLeaderboard() {
+  let url = "https://wp.arashbesharat.com/wp-json/leaderboard/v1/leaderboard";
+  const result = await fetch(url);
+  const data = await result.json();
+  const listContainer = document.querySelector("#jsonList");
 
-  // Function to generate the list
-  function generateList(jsonData) {
-    const listContainer = document.getElementById("jsonList");
-
-    // Iterate through the JSON data and create list items
-    jsonData.forEach((item) => {
-      const listItem = document.createElement("li");
-      listItem.textContent = `name: ${item.name} score: ${item.score}`;
-      listContainer.appendChild(listItem);
-    });
-  }
-});
+  data.forEach((item) => {
+    const listItem = document.createElement("li");
+    listItem.textContent = `name: ${item.name} score: ${item.score}`;
+    listContainer.appendChild(listItem);
+  })
+}
 
 //board
 let board;
