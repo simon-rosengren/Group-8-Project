@@ -1,24 +1,32 @@
 //test function to send data
 function submitScore() {
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-  var raw = JSON.stringify({
-    "name": name,
-    "score": score
-  });
-  var requestOptions = {
-    method: 'POST',
-    headers: myHeaders,
-    body: raw,
-    redirect: 'follow'
-  };
-  fetch("https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score", requestOptions)
-    .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
+// Get data from the input field
+let name = document.querySelector("#data").value;
 
+handleNameInput(name)
+
+
+
+
+
+// Send information to back end with name and score
+fetch(
+  `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${inputData}&score=${score}`
+);
 }
 
+function handleNameInput(name) {
+
+  if (localStorage.getItem('name')) {
+    let input = document.querySelector("#data");
+    input.value = name;
+  } else {
+    localStorage.setItem('name', name);
+  }
+  
+}
+
+getLeaderboard();
 //Leaderboard
 async function getLeaderboard() {
   let url = "https://wp.arashbesharat.com/wp-json/leaderboard/v1/leaderboard";
@@ -26,11 +34,13 @@ async function getLeaderboard() {
   const data = await result.json();
   const listContainer = document.querySelector("#jsonList");
 
-  data.forEach((item) => {
+  //Get the top 10 results
+  for (let i = 0; i < Math.min(data.length, 10); i++) {
+    const item = data[i];
     const listItem = document.createElement("li");
     listItem.textContent = `name: ${item.name} score: ${item.score}`;
     listContainer.appendChild(listItem);
-  })
+  }
 }
 
 //board
