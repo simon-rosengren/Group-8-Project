@@ -96,14 +96,14 @@ window.onload = function() {
 
   //adds the image to the player
   playerImg = new Image();
-  playerImg.src = "./flappybird.png";
+  playerImg.src = "./assets/flappybird.png";
   playerImg.onload = function () {
     context.drawImage(playerImg, player.x, player.y, player.width, player.height);
   };
 
   //adds the image to the top pipe
   topPipeImg = new Image();
-  topPipeImg.src = "./tpipe.png";
+  topPipeImg.src = "./assets/tpipe.png";
 
   //calls the update function on window load to start the game
   requestAnimationFrame(update);
