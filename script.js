@@ -212,6 +212,12 @@ function submitScore() {
   fetch(
     `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${name}&score=${score}`
   );
+
+  document.querySelector("#playerName").style.display = "none";
+  submitBtn.style.display = "none";
+  let successText = document.createElement("p");
+  successText.textContent = "Score Submitted!"
+  buttonContainer.appendChild(successText);
 }
 
 function handleNameInput(name) {

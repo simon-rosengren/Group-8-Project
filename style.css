@@ -11,8 +11,7 @@ body {
 }
 
 #board {
-  background-image: url("./assets/backg.png");
-  background-size: cover;
+  background-image: linear-gradient(white 10%, rgb(255, 157, 0))
 }
 .header {
   margin-top: 30px;
@@ -145,7 +144,6 @@ h2 {
   font-weight: 500;
 }
 
-
 /* CHANGE */
 #playAgainBtn,
 #leaderboardBtn {
@@ -156,4 +154,118 @@ h2 {
 #playAgainBtn:hover,
 #leaderboardBtn:hover {
   background-color: #bbb6b6;
+}
+
+.stick-figure {
+  width: 100px;
+  height: 200px;
+  position: absolute;
+  animation: dance 1s infinite alternate;
+}
+
+.stick-figure img.face {
+  position: absolute;
+  top: -20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.stick-figure div {
+  position: absolute;
+  background-color: #000;
+}
+
+.left-stick {
+  left: 5%;
+  bottom: 35%; /* Adjust the distance from the bottom as needed */
+}
+
+.right-stick {
+  right: 5%;
+  bottom: 35%; /* Adjust the distance from the bottom as needed */
+}
+
+.stick-figure-body {
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 70px;
+}
+
+.left-leg,
+.right-leg {
+  width: 6px;
+  height: 50px;
+}
+
+.left-leg {
+  top: 110px;
+  left: 50%;
+  transform-origin: top right;
+  transform: rotate(-20deg);
+  animation: legDance 1s infinite alternate;
+}
+
+.right-leg {
+  top: 110px;
+  right: 50%;
+  transform-origin: top left;
+  transform: rotate(20deg);
+  animation: legDance 1s infinite alternate-reverse;
+}
+
+.left-arm,
+.right-arm {
+  width: 5px;
+  height: 50px;
+}
+
+.left-arm {
+  top: 50px;
+  left: 50%;
+  transform-origin: top right;
+  transform: rotate(-45deg);
+  animation: armDance 1s infinite alternate-reverse;
+}
+
+.right-arm {
+  top: 50px;
+  right: 50%;
+  transform-origin: top left;
+  transform: rotate(45deg);
+  animation: armDance 1s infinite alternate;
+}
+
+@keyframes dance {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes legDance {
+  0%,
+  100% {
+    transform: rotate(-30deg);
+  }
+  50% {
+    transform: rotate(30deg);
+  }
+}
+
+@keyframes armDance {
+  0%,
+  100% {
+    transform: rotate(-50deg);
+  }
+  50% {
+    transform: rotate(50deg);
+  }
 }
