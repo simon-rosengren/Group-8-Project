@@ -1,29 +1,23 @@
 //test function to send data
 function submitScore() {
-// Get data from the input field
-let name = document.querySelector("#data").value;
+  // Get data from the input field
+  let name = document.querySelector("#data").value;
 
-handleNameInput(name)
+  handleNameInput(name);
 
-
-
-
-
-// Send information to back end with name and score
-fetch(
-  `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${inputData}&score=${score}`
-);
+  // Send information to back end with name and score
+  fetch(
+    `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${name}&score=${score}`
+  );
 }
 
 function handleNameInput(name) {
-
-  if (localStorage.getItem('name')) {
+  if (localStorage.getItem("name")) {
     let input = document.querySelector("#data");
     input.value = name;
   } else {
-    localStorage.setItem('name', name);
+    localStorage.setItem("name", name);
   }
-  
 }
 
 getLeaderboard();
@@ -71,7 +65,15 @@ let pipeX = boardWidth;
 let pipeY = 0;
 
 let topPipeImg;
-let bottomPipeImg;
+let randomImageIndex;
+const imageArray = [
+  "./1.JPG",
+  "./2.JPG",
+  "./3.JPG",
+  "./4.JPG",
+  "./5.JPG",
+  "./6.JPG",
+];
 
 //physics
 let velocityX = -2; //pipes moving left speed
@@ -106,10 +108,6 @@ window.onload = function () {
   //adds the image to the top pipe
   topPipeImg = new Image();
   topPipeImg.src = "./tpipe.png";
-
-  //adds the image to the bottom pipe
-  bottomPipeImg = new Image();
-  bottomPipeImg.src = "./bpipeborder.png";
 
   //calls the update function on window load to start the game
   requestAnimationFrame(update);
@@ -199,6 +197,9 @@ function placePipes() {
   let randomPipeY = pipeY - pipeHeight / 4 - Math.random() * (pipeHeight / 2);
   let openingSpace = board.height / 3;
 
+  //random number for the index of the image path
+  randomImageIndex = Math.floor(Math.random() * imageArray.length);
+  
   //Creates a top pipe and pushes it into the pipe array to be rendered
   let topPipe = {
     //Adds the image to the pipe
@@ -218,7 +219,8 @@ function placePipes() {
 
   //Creates bottom pipe and pushes it into the pipe array to be rendered
   let bottomPipe = {
-    img: bottomPipeImg,
+    //gives the bottom pipe a new image because we are changing it with every new pipe
+    img: new Image(),
     x: pipeX,
     //Puts the bottom pipe under the top pipe with openingSpace as the gap between them
     y: randomPipeY + pipeHeight + openingSpace,
@@ -226,6 +228,8 @@ function placePipes() {
     height: pipeHeight,
     passed: false,
   };
+  //Selects and image path from the array with the index being random
+  bottomPipe.img.src = imageArray[randomImageIndex];
   pipeArray.push(bottomPipe);
 }
 
