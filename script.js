@@ -35,10 +35,6 @@ async function getLeaderboard() {
   }
 }
 
-// NEEDS TO BE MOVED
-
-
-
 //board
 let board;
 let boardWidth = 1000;
@@ -69,20 +65,18 @@ let pipeY = 0;
 let topPipeImg;
 let randomImageIndex;
 const imageArray = [
-  "./1.JPG",
-  "./2.JPG",
-  "./3.JPG",
-  "./4.JPG",
-  "./5.JPG",
-  "./6.JPG",
+  "./assets/pipe1.png",
+  "./assets/pipe2.png",
+  "./assets/pipe3.png",
+
 ];
 
 //physics
-let velocityX = -2; //pipes moving left speed
+let velocityX = -5; //pipes moving left speed
 //the player jump speed (is changed in)
 let velocityY = 0;
 //sets the gravity for the player (the speed at which the player falls down)
-let gravity = 0.4;
+let gravity = 0.8;
 
 //variable to check and decide when the game is over
 let gameOver = false;
@@ -240,7 +234,7 @@ function movePlayer(e) {
   //Keys that will move the player
   if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
     // negative values move the player upwards on the screen
-    velocityY = -6;
+    velocityY = -10;
 
     //resets the game
     if (gameOver) {
@@ -253,7 +247,7 @@ function movePlayer(e) {
       //resets the bool to signify game is starting again
       gameOver = false;
       //resets the speed of the pipes
-      velocityX = -2;
+      velocityX = -5;
     }
     
   }
