@@ -53,18 +53,18 @@ window.onload = function() {
 
     //adds the image to the player
     birdImg = new Image();
-    birdImg.src = "./flappybird.png";
+    birdImg.src = "./assets/flappybird.png";
     birdImg.onload = function() {
         context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
     }
 
     //adds the image to the top pipe
     topPipeImg = new Image();
-    topPipeImg.src = "./tpipe.png";
+    topPipeImg.src = "./assets/tpipe.png";
 
     //adds the image to the bottom pipe
     bottomPipeImg = new Image();
-    bottomPipeImg.src = "./bpipeborder.png";
+    bottomPipeImg.src = "./assets/bpipeborder.png";
 
     //calls the update function on window load to start the game
     requestAnimationFrame(update);
@@ -214,4 +214,22 @@ function detectCollision(a, b) {
            a.x + a.width > b.x &&   //a's top right corner passes b's top left corner
            a.y < b.y + b.height &&  //a's top left corner doesn't reach b's bottom left corner
            a.y + a.height > b.y;    //a's bottom left corner passes b's top left corner
+}
+
+function submitScore() {
+  // Get data from the input field
+  let name = document.querySelector("#data").value;
+  // Send information to back end with name and score
+  fetch(
+    `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${name}&score=${score}`
+  );
+}
+
+function handleNameInput(name) {
+  if (localStorage.getItem("name")) {
+    let input = document.querySelector("#data");
+    input.value = name;
+  } else {
+    localStorage.setItem("name", name);
+  }
 }
