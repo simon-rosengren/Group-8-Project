@@ -1,3 +1,5 @@
+//NEEDS TO BE MOVED
+
 //test function to send data
 function submitScore() {
   // Get data from the input field
@@ -35,6 +37,10 @@ async function getLeaderboard() {
     listContainer.appendChild(listItem);
   }
 }
+
+// NEEDS TO BE MOVED
+
+
 
 //board
 let board;
@@ -87,7 +93,7 @@ let gameOver = false;
 let score = 0;
 
 //initialization of the game, this runs when the window is loaded
-window.onload = function () {
+function gameStart() {
   //gets the canvas element
   board = document.getElementById("board");
   //sets the board height to the value of boardHeight
@@ -252,6 +258,7 @@ function movePlayer(e) {
       //resets the speed of the pipes
       velocityX = -2;
     }
+    
   }
 }
 
