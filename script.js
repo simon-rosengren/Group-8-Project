@@ -4,9 +4,6 @@
 function submitScore() {
   // Get data from the input field
   let name = document.querySelector("#data").value;
-
-  handleNameInput(name);
-
   // Send information to back end with name and score
   fetch(
     `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${name}&score=${score}`
@@ -93,7 +90,7 @@ let gameOver = false;
 let score = 0;
 
 //initialization of the game, this runs when the window is loaded
-function gameStart() {
+window.onload = function() {
   //gets the canvas element
   board = document.getElementById("board");
   //sets the board height to the value of boardHeight
