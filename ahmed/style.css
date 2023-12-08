@@ -10,6 +10,10 @@
 .leaderboard {
   width: 100%;
   height: 100%;
+
+}
+.player {
+  font-size: 100px;
 }
 
 .leadersign {
