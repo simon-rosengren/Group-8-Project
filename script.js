@@ -20,7 +20,6 @@ function handleNameInput(name) {
   }
 }
 
-getLeaderboard();
 //Leaderboard
 async function getLeaderboard() {
   let url = "https://wp.arashbesharat.com/wp-json/leaderboard/v1/leaderboard";
@@ -43,18 +42,18 @@ let boardWidth = 1000;
 let boardHeight = 640;
 let context;
 
-//bird
-let birdWidth = 34; //width/height ratio = 408/228 = 17/12
-let birdHeight = 24;
-let birdX = boardWidth / 8;
-let birdY = boardHeight / 2;
-let birdImg;
+//player
+let playerWidth = 34; //width/height ratio = 408/228 = 17/12
+let playerHeight = 24;
+let playerX = boardWidth / 8;
+let playerY = boardHeight / 2;
+let playerImg;
 
-let bird = {
-  x: birdX,
-  y: birdY,
-  width: birdWidth,
-  height: birdHeight,
+let player = {
+  x: playerX,
+  y: playerY,
+  width: playerWidth,
+  height: playerHeight,
 };
 
 //pipes
@@ -99,10 +98,10 @@ window.onload = function () {
   context = board.getContext("2d");
 
   //adds the image to the player
-  birdImg = new Image();
-  birdImg.src = "./flappybird.png";
-  birdImg.onload = function () {
-    context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
+  playerImg = new Image();
+  playerImg.src = "./flappybird.png";
+  playerImg.onload = function () {
+    context.drawImage(playerImg, player.x, player.y, player.width, player.height);
   };
 
   //adds the image to the top pipe
@@ -115,8 +114,8 @@ window.onload = function () {
   //sets the interval at which the pipes are generated
   setInterval(placePipes, 1500); //every 1.5 seconds
 
-  //adds the functionality of moving the bird when you press certain keys
-  document.addEventListener("keydown", moveBird);
+  //adds the functionality of moving the player when you press certain keys
+  document.addEventListener("keydown", movePlayer);
 };
 
 //function that is updating the content on the board by calling itself on each frame update
@@ -136,12 +135,12 @@ function update() {
 
   //apply gravity to the player and limit the player to no be able to go above the canvas
   velocityY += gravity;
-  bird.y = Math.max(bird.y + velocityY, 0);
+  player.y = Math.max(player.y + velocityY, 0);
   //draws the player on the screen using the image asset, x and y values, and the width and height of player character
-  context.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
+  context.drawImage(playerImg, player.x, player.y, player.width, player.height);
 
   //if the player touches the bottom of the board, the game is over
-  if (bird.y > board.height) {
+  if (player.y > board.height) {
     gameOver = true;
   }
 
@@ -154,13 +153,13 @@ function update() {
     context.drawImage(pipe.img, pipe.x, pipe.y, pipe.width, pipe.height);
 
     //If player has passed a pipe, add 1 score to the player
-    if (!pipe.passed && bird.x > pipe.x + pipe.width) {
+    if (!pipe.passed && player.x > pipe.x + pipe.width) {
       score += 0.5; //0.5 because there are 2 pipes! so 0.5*2 = 1, 1 for each set of pipes
       pipe.passed = true;
     }
 
     //Checks if player has collided with pipe and gives game over state
-    if (detectCollision(bird, pipe)) {
+    if (detectCollision(player, pipe)) {
       gameOver = true;
     }
   }
@@ -212,7 +211,7 @@ function placePipes() {
     width: pipeWidth,
     //Sets the pipes height based on pipeHeight value
     height: pipeHeight,
-    //Gives the pipe a passed bool to check if bird has passed the pipe to give score
+    //Gives the pipe a passed bool to check if player has passed the pipe to give score
     passed: false,
   };
   pipeArray.push(topPipe);
@@ -233,29 +232,30 @@ function placePipes() {
   pipeArray.push(bottomPipe);
 }
 
-//Takes event parameter to move the bird
-function moveBird(e) {
-  //Keys that will move the bird
+//Takes event parameter to move the player
+function movePlayer(e) {
+  //Keys that will move the player
   if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
-    // negative values move the bird upwards on the screen
+    // negative values move the player upwards on the screen
     velocityY = -6;
 
     //resets the game
     if (gameOver) {
-      //resets birds y position
-      bird.y = birdY;
+      //resets players y position
+      player.y = playerY;
       //empties the pipes array and removes all pipes from screen
       pipeArray = [];
       //resets the score
       score = 0;
       //resets the bool to signify game is starting again
       gameOver = false;
+      //resets the speed of the pipes
       velocityX = -2;
     }
   }
 }
 
-//Detects collision between the bird and the pipe by checking the birds x and y position against the pipes x and y position
+//Detects collision between the player and the pipe by checking the players x and y position against the pipes x and y position
 function detectCollision(a, b) {
   return (
     a.x < b.x + b.width && //a's top left corner doesn't reach b's top right corner
