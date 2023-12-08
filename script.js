@@ -1,40 +1,3 @@
-//NEEDS TO BE MOVED
-
-//test function to send data
-function submitScore() {
-  // Get data from the input field
-  let name = document.querySelector("#data").value;
-  // Send information to back end with name and score
-  fetch(
-    `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${name}&score=${score}`
-  );
-}
-
-function handleNameInput(name) {
-  if (localStorage.getItem("name")) {
-    let input = document.querySelector("#data");
-    input.value = name;
-  } else {
-    localStorage.setItem("name", name);
-  }
-}
-
-//Leaderboard
-async function getLeaderboard() {
-  let url = "https://wp.arashbesharat.com/wp-json/leaderboard/v1/leaderboard";
-  const result = await fetch(url);
-  const data = await result.json();
-  const listContainer = document.querySelector("#jsonList");
-
-  //Get the top 10 results
-  for (let i = 0; i < Math.min(data.length, 10); i++) {
-    const item = data[i];
-    const listItem = document.createElement("li");
-    listItem.textContent = `name: ${item.name} score: ${item.score}`;
-    listContainer.appendChild(listItem);
-  }
-}
-
 //board
 let board;
 let boardWidth = 1000;
@@ -262,3 +225,47 @@ function detectCollision(a, b) {
     a.y + a.height > b.y
   ); //a's bottom left corner passes b's top left corner
 }
+
+function submitScore() {
+  // Get data from the input field
+  let name = document.querySelector("#data").value;
+  // Send information to back end with name and score
+  fetch(
+    `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${name}&score=${score}`
+  );
+}
+
+function handleNameInput(name) {
+  if (localStorage.getItem("name")) {
+    let input = document.querySelector("#data");
+    input.value = name;
+  } else {
+    localStorage.setItem("name", name);
+  }
+}
+
+const modal = document.getElementById('gameOverModal');
+
+// When the game is over, display the modal
+function showGameOverModal() {
+//   modal.style.display = 'block';
+}
+
+// Play Again button functionality
+document.getElementById('playAgainBtn').addEventListener('click', function() {
+  // Add functionality to restart the game or navigate to play again screen
+  // For example: window.location.reload(); or similar functionality
+});
+
+// Leaderboard button functionality
+document.getElementById('leaderboardBtn').addEventListener('click', function() {
+  // Add functionality to navigate to the leaderboard screen
+  // For example: window.location.href = '/leaderboard';
+});
+
+
+const userScore = 100; // Replace this with your actual user score
+    document.getElementById('userScore').textContent = userScore;
+
+// Call the function to show the modal when the game is over (you can trigger this in your game logic)
+// showGameOverModal();

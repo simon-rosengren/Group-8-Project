@@ -1,65 +1,165 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    font-family:'Courier New', Courier, monospace;
-    text-align: center;
+  font-family: "Press Start 2P", cursive;
+  text-align: center;
+  background: white;
 }
 
 #board {
-    /* background-color: skyblue; */
-    background-image: url("./assets/hyperbirdbg.jpg");
-    background-size: cover;
+  /* background-color: skyblue; */
+  background-image: url("./assets/backg.png");
+  background-size: cover;
 }
-.header{
-    margin-top: 30px;
+.header {
+  margin-top: 30px;
 }
-#title{
-    font-size: 100px;
-    color: #ff2d75;
+#title {
+  font-size: 100px;
+  color: #ff2d75;
 }
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+.background {
+  position: relative;
+  width: 100%;
+  margin-top: 100px;
+  overflow: hidden;
+}
+.bubbles {
+  position: absolute;
+  display: flex;
+}
+.bubbles span {
+  position: relative;
+
+  width: 25px;
+  height: 25px;
+  background: #4fc3dc;
+  margin: 0;
+  border-radius: 100%;
+  box-shadow: 0 0 0 10px #4fc3dc44, 0 0 45px #4fc3dc, 0 0 100px #a9e5f2;
+  animation: animate 15s linear infinite;
+  animation-duration: calc(900s / var(--i));
+}
+.bubbles span:nth-child(even) {
+  background: #ff2d75;
+  box-shadow: 0 0 0 10px #ff2d7544, 0 0 50px #ff2d75,
+    0 0 100px rgb(227, 78, 130);
+  animation-duration: calc(900s / var(--i));
+}
+@keyframes animate {
+  0% {
+    transform: translateY(110vh) scale(0);
   }
-  
-  body {
-    background: #0c192c;
+  200% {
+    transform: translateY(-200vh) scale(1);
   }
-  .background {
-    position: relative;
-    width: 100%;
-   margin-top: 100px;
-   
-    overflow: hidden;
-  }
-  .bubbles {
-    position: absolute;
-    display: flex;
-  }
-  .bubbles span {
-    position: relative;
-  
-    width: 25px;
-    height: 25px;
-    background: #4fc3dc;
-    margin: 0;
-    border-radius: 100%;
-    box-shadow: 0 0 0 10px #4fc3dc44, 0 0 45px #4fc3dc, 0 0 100px #a9e5f2;
-    animation: animate 15s linear infinite;
-    animation-duration: calc(900s / var(--i));
-  }
-  .bubbles span:nth-child(even) {
-    background: #ff2d75;
-    box-shadow: 0 0 0 10px #ff2d7544, 0 0 50px #ff2d75,
-      0 0 100px rgb(227, 78, 130);
-    animation-duration: calc(900s / var(--i));
-  }
-  @keyframes animate {
-    0% {
-      transform: translateY(110vh) scale(0);
-    }
-    200% {
-      transform: translateY(-200vh) scale(1);
-    }
-  }
-  
-  
+}
+
+.modal {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: none;
+}
+h2 {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#playerName {
+  padding: 8px;
+  margin-right: 10px;
+  font-size: 16px;
+  border: 2px solid #4caf50;
+  border-radius: 5px;
+}
+
+#submitBtn {
+  padding: 10px 20px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+#submitBtn:hover {
+  background-color: #45a049;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fefefe;
+  position: fixed;
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%);
+  padding: 30px;
+  /* border: 1px solid #888; */
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Style for the buttons */
+.modal-content button {
+  padding: 12px 24px;
+  margin: 10px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.modal-content button:hover {
+  background-color: #45a049;
+}
+.userscore {
+  font-size: 24px;
+  margin: 10px;
+  font-weight: 500;
+}
+/* .buttons {
+  display: flex;
+
+} */
+/* Additional styling for the buttons */
+#playAgainBtn,
+#leaderboardBtn {
+  width: 200px;
+  background-color: #888686;
+}
+
+#playAgainBtn:hover,
+#leaderboardBtn:hover {
+  background-color: #bbb6b6;
+}
