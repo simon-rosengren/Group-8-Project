@@ -77,13 +77,14 @@ window.onload = function () {
 
 //function that is updating the content on the board by calling itself on each frame update
 function update() {
-  //calls this function again when the frame updates
-  requestAnimationFrame(update);
   //stop running this function when the game is over
   if (gameOver) {
     modalContent.style.display = "block";
+    buttonContainer.style.display = "flex";
     return;
   }
+  //calls this function again when the frame updates
+  requestAnimationFrame(update);
   context.clearRect(0, 0, board.width, board.height);
 
   // Change the speed at which the pipes move towards the player
@@ -131,11 +132,6 @@ function update() {
   context.fillStyle = "white";
   context.font = "45px sans-serif";
   context.fillText(score, 5, 45);
-
-  //Adds game over text to signify to player that the game is over
-  if (gameOver) {
-    context.fillText("GAME OVER", 5, 90);
-  }
 }
 
 //Creates new pipes to be rendered
@@ -211,7 +207,7 @@ function detectCollision(a, b) {
 
 function submitScore() {
   // Get data from the input field
-  let name = document.querySelector("#data").value;
+  let name = document.querySelector("#playerName").value;
   // Send information to back end with name and score
   fetch(
     `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${name}&score=${score}`
@@ -230,13 +226,21 @@ function handleNameInput(name) {
 let modalContent = document.querySelector("#menuModal");
 let playAgainBtn = document.querySelector("#playAgainBtn");
 let leaderboardBtn = document.querySelector("#leaderboardBtn");
+let buttonContainer = document.querySelector(".button-container");
+let submitBtn = document.querySelector("#submitBtn")
 
-playAgainBtn.addEventListener("click", function () {
+submitBtn.addEventListener("click", submitScore)
+
+
+playAgainBtn.addEventListener("click", gameStart);
+
+function gameStart() {
+  clearInterval(pipeInterval);
   //calls the update function on window load to start the game
   requestAnimationFrame(update);
 
   //sets the interval at which the pipes are generated
-  setInterval(placePipes, 1500); //every 1.5 seconds
+  pipeInterval = setInterval(placePipes, 1500); //every 1.5 seconds
 
   //adds the functionality of moving the player when you press certain keys
   document.addEventListener("keydown", movePlayer);
@@ -251,14 +255,14 @@ playAgainBtn.addEventListener("click", function () {
     pipeArray = [];
     //resets the score
     score = 0;
-    //resets the bool to signify game is starting again
-    gameOver = false;
     //resets the speed of the pipes
     velocityX = -5;
-    //reset the speed of the player
+    //reset velocityY
     velocityY = 0;
+    //resets the bool to signify game is starting again
+    gameOver = false;
   }
-});
+}
 
 leaderboardBtn.addEventListener("click", function () {
   document.location.href = "./leaderboard.html";
