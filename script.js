@@ -24,6 +24,7 @@ let pipeWidth = 64; //width/height ratio = 384/3072 = 1/8
 let pipeHeight = 512;
 let pipeX = boardWidth;
 let pipeY = 0;
+let pipeInterval;
 
 let topPipeImg;
 let randomImageIndex;
@@ -31,7 +32,6 @@ const imageArray = [
   "./assets/pipe1.png",
   "./assets/pipe2.png",
   "./assets/pipe3.png",
-
 ];
 
 //physics
@@ -47,7 +47,7 @@ let gameOver = false;
 let score = 0;
 
 //initialization of the game, this runs when the window is loaded
-window.onload = function() {
+window.onload = function () {
   //gets the canvas element
   board = document.getElementById("board");
   //sets the board height to the value of boardHeight
@@ -61,21 +61,18 @@ window.onload = function() {
   playerImg = new Image();
   playerImg.src = "./assets/flappybird.png";
   playerImg.onload = function () {
-    context.drawImage(playerImg, player.x, player.y, player.width, player.height);
+    context.drawImage(
+      playerImg,
+      player.x,
+      player.y,
+      player.width,
+      player.height
+    );
   };
 
   //adds the image to the top pipe
   topPipeImg = new Image();
   topPipeImg.src = "./assets/tpipe.png";
-
-  //calls the update function on window load to start the game
-  requestAnimationFrame(update);
-
-  //sets the interval at which the pipes are generated
-  setInterval(placePipes, 1500); //every 1.5 seconds
-
-  //adds the functionality of moving the player when you press certain keys
-  document.addEventListener("keydown", movePlayer);
 };
 
 //function that is updating the content on the board by calling itself on each frame update
@@ -84,6 +81,7 @@ function update() {
   requestAnimationFrame(update);
   //stop running this function when the game is over
   if (gameOver) {
+    modalContent.style.display = "block";
     return;
   }
   context.clearRect(0, 0, board.width, board.height);
@@ -158,7 +156,7 @@ function placePipes() {
 
   //random number for the index of the image path
   randomImageIndex = Math.floor(Math.random() * imageArray.length);
-  
+
   //Creates a top pipe and pushes it into the pipe array to be rendered
   let topPipe = {
     //Adds the image to the pipe
@@ -198,21 +196,6 @@ function movePlayer(e) {
   if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
     // negative values move the player upwards on the screen
     velocityY = -10;
-
-    //resets the game
-    if (gameOver) {
-      //resets players y position
-      player.y = playerY;
-      //empties the pipes array and removes all pipes from screen
-      pipeArray = [];
-      //resets the score
-      score = 0;
-      //resets the bool to signify game is starting again
-      gameOver = false;
-      //resets the speed of the pipes
-      velocityX = -5;
-    }
-    
   }
 }
 
@@ -244,28 +227,39 @@ function handleNameInput(name) {
   }
 }
 
-const modal = document.getElementById('gameOverModal');
+let modalContent = document.querySelector("#menuModal");
+let playAgainBtn = document.querySelector("#playAgainBtn");
+let leaderboardBtn = document.querySelector("#leaderboardBtn");
 
-// When the game is over, display the modal
-function showGameOverModal() {
-//   modal.style.display = 'block';
-}
+playAgainBtn.addEventListener("click", function () {
+  //calls the update function on window load to start the game
+  requestAnimationFrame(update);
 
-// Play Again button functionality
-document.getElementById('playAgainBtn').addEventListener('click', function() {
-  // Add functionality to restart the game or navigate to play again screen
-  // For example: window.location.reload(); or similar functionality
+  //sets the interval at which the pipes are generated
+  setInterval(placePipes, 1500); //every 1.5 seconds
+
+  //adds the functionality of moving the player when you press certain keys
+  document.addEventListener("keydown", movePlayer);
+
+  modalContent.style.display = "none";
+
+  //resets the game
+  if (gameOver) {
+    //resets players y position
+    player.y = playerY;
+    //empties the pipes array and removes all pipes from screen
+    pipeArray = [];
+    //resets the score
+    score = 0;
+    //resets the bool to signify game is starting again
+    gameOver = false;
+    //resets the speed of the pipes
+    velocityX = -5;
+    //reset the speed of the player
+    velocityY = 0;
+  }
 });
 
-// Leaderboard button functionality
-document.getElementById('leaderboardBtn').addEventListener('click', function() {
-  // Add functionality to navigate to the leaderboard screen
-  // For example: window.location.href = '/leaderboard';
+leaderboardBtn.addEventListener("click", function () {
+  document.location.href = "./leaderboard.html";
 });
-
-
-const userScore = 100; // Replace this with your actual user score
-    document.getElementById('userScore').textContent = userScore;
-
-// Call the function to show the modal when the game is over (you can trigger this in your game logic)
-// showGameOverModal();

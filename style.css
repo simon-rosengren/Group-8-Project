@@ -11,7 +11,6 @@ body {
 }
 
 #board {
-  /* background-color: skyblue; */
   background-image: url("./assets/backg.png");
   background-size: cover;
 }
@@ -61,7 +60,6 @@ body {
 }
 
 .modal {
-  display: none;
   position: absolute;
   z-index: 2;
   left: 0;
@@ -77,7 +75,7 @@ h2 {
   margin-bottom: 20px;
 }
 .button-container {
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   margin-bottom: 20px;
@@ -124,12 +122,11 @@ h2 {
   background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* Style for the buttons */
+/* CHANGE */
 .modal-content button {
   padding: 12px 24px;
   margin: 10px;
   cursor: pointer;
-  background-color: #4caf50;
   color: white;
   border: none;
   border-radius: 5px;
@@ -140,19 +137,16 @@ h2 {
   transition-duration: 0.4s;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
-.modal-content button:hover {
-  background-color: #45a049;
-}
-.userscore {
+
+.userScore {
+  display: none;
   font-size: 24px;
   margin: 10px;
   font-weight: 500;
 }
-/* .buttons {
-  display: flex;
 
-} */
-/* Additional styling for the buttons */
+
+/* CHANGE */
 #playAgainBtn,
 #leaderboardBtn {
   width: 200px;
