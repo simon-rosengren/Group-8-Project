@@ -285,7 +285,7 @@ window.onload = function () {
 
   //adds the image to the top pipe
   topPipeImg = new Image();
-  topPipeImg.src = "./assets/tpipe.png";
+  topPipeImg.src = "./assets/topppipe.png";
 
   input.value = localStorage.getItem("name");
 };
