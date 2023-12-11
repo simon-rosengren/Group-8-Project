@@ -46,43 +46,21 @@ let gameOver = false;
 //score value that will increase when the player passes a pipe
 let score = 0;
 
-//initialization of the game, this runs when the window is loaded
-window.onload = function () {
-  //gets the canvas element
-  board = document.getElementById("board");
-  //sets the board height to the value of boardHeight
-  board.height = boardHeight;
-  //sets the board width to the value of boardWidth
-  board.width = boardWidth;
-  //used for drawing on the board and sets it to be a 2d board
-  context = board.getContext("2d");
-
-  //adds the image to the player
-  playerImg = new Image();
-  playerImg.src = "./assets/flappybird.png";
-  playerImg.onload = function () {
-    context.drawImage(
-      playerImg,
-      player.x,
-      player.y,
-      player.width,
-      player.height
-    );
-  };
-
-  //adds the image to the top pipe
-  topPipeImg = new Image();
-  topPipeImg.src = "./assets/tpipe.png";
-};
-
-
+//Event Listener variables
+let modalContent = document.querySelector("#menuModal");
+let playAgainBtn = document.querySelector("#playAgainBtn");
+let leaderboardBtn = document.querySelector("#leaderboardBtn");
+let buttonContainer = document.querySelector(".button-container");
+let submitBtn = document.querySelector("#submitBtn");
+let successText = document.querySelector("#successText");
+let input = document.querySelector("#playerName");
+let userScore = document.querySelector(".userScore");
 
 //function that is updating the content on the board by calling itself on each frame update
 function update() {
   //stop running this function when the game is over
   if (gameOver) {
-    modalContent.style.display = "block";
-    buttonContainer.style.display = "flex";
+    showGameOver();
     return;
   }
   //calls this function again when the frame updates
@@ -131,9 +109,9 @@ function update() {
   }
 
   //Draws the score on the screen as white text 45px in size in the top left corner
-  context.fillStyle = "white";
+  context.fillStyle = "red";
   context.font = "45px sans-serif";
-  context.fillText(score, 5, 45);
+  context.fillText(score, boardWidth / 2, 80);
 }
 
 //Creates new pipes to be rendered
@@ -193,7 +171,7 @@ function movePlayer(e) {
   //Keys that will move the player
   if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
     // negative values move the player upwards on the screen
-    e.preventDefault()
+    e.preventDefault();
     velocityY = -10;
   }
 }
@@ -218,30 +196,19 @@ function submitScore() {
 
   document.querySelector("#playerName").style.display = "none";
   submitBtn.style.display = "none";
-  let successText = document.createElement("p");
-  successText.textContent = "Score Submitted!"
-  buttonContainer.appendChild(successText);
+  successText.style.display = "block";
+  successText.textContent = "Score Submitted Successfully!";
+
+  handleNameInput(name);
 }
 
 function handleNameInput(name) {
   if (localStorage.getItem("name")) {
-    let input = document.querySelector("#data");
     input.value = name;
   } else {
     localStorage.setItem("name", name);
   }
 }
-
-let modalContent = document.querySelector("#menuModal");
-let playAgainBtn = document.querySelector("#playAgainBtn");
-let leaderboardBtn = document.querySelector("#leaderboardBtn");
-let buttonContainer = document.querySelector(".button-container");
-let submitBtn = document.querySelector("#submitBtn")
-
-submitBtn.addEventListener("click", submitScore)
-
-
-playAgainBtn.addEventListener("click", gameStart);
 
 function gameStart() {
   clearInterval(pipeInterval);
@@ -255,6 +222,8 @@ function gameStart() {
   document.addEventListener("keydown", movePlayer);
 
   modalContent.style.display = "none";
+
+  successText.style.display = "none";
 
   //resets the game
   if (gameOver) {
@@ -273,6 +242,50 @@ function gameStart() {
   }
 }
 
+function showGameOver() {
+  modalContent.style.display = "block";
+  buttonContainer.style.display = "flex";
+  document.querySelector("#playerName").style.display = "block";
+  submitBtn.style.display = "block";
+  userScore.style.display = "block";
+  userScore.textContent = `Score: ${score}`;
+}
+
+playAgainBtn.addEventListener("click", gameStart);
+
 leaderboardBtn.addEventListener("click", function () {
   document.location.href = "./leaderboard.html";
 });
+
+submitBtn.addEventListener("click", submitScore);
+
+//initialization of the game, this runs when the window is loaded
+window.onload = function () {
+  //gets the canvas element
+  board = document.getElementById("board");
+  //sets the board height to the value of boardHeight
+  board.height = boardHeight;
+  //sets the board width to the value of boardWidth
+  board.width = boardWidth;
+  //used for drawing on the board and sets it to be a 2d board
+  context = board.getContext("2d");
+
+  //adds the image to the player
+  playerImg = new Image();
+  playerImg.src = "./assets/flappybird.png";
+  playerImg.onload = function () {
+    context.drawImage(
+      playerImg,
+      player.x,
+      player.y,
+      player.width,
+      player.height
+    );
+  };
+
+  //adds the image to the top pipe
+  topPipeImg = new Image();
+  topPipeImg.src = "./assets/tpipe.png";
+
+  input.value = localStorage.getItem("name");
+};

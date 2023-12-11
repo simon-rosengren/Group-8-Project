@@ -40,3 +40,47 @@ img {
 .medals {
   width: 40px;
 }
+@keyframes animate {
+  0% {
+    transform: translateY(110vh) scale(0);
+  }
+  200% {
+    transform: translateY(-200vh) scale(1);
+  }
+}
+.buttton {
+  display: flex;
+  justify-content: center;
+  margin-right: 100px;
+}
+button {
+  width: 200px;
+  padding: 15px 0;
+  text-align: center;
+  margin: 20px 10px;
+  border-radius: 25px;
+  font-weight: bold;
+  border: 2px solid greenyellow;
+  background: transparent;
+  color: #010101;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+span {
+  background: greenyellow;
+  height: 100%;
+  width: 0;
+  border-radius: 25px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  transition: 0.5s;
+}
+button:hover span {
+  width: 100%;
+}
+button:hover {
+  border: none;
+}

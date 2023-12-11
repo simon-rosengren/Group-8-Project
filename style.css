@@ -10,10 +10,57 @@ body {
   background: white;
 }
 
+h1 {
+  margin-top: 40px;
+  font-size: 60px;
+  text-align: center;
+  color: #313131;
+  font-weight: bold;
+  -webkit-animation: colorchange 20s infinite alternate;
+  margin-bottom: 2rem;
+}
+
+@-webkit-keyframes colorchange {
+  0% {
+    color: blue;
+  }
+  10% {
+    color: #8e44ad;
+  }
+  20% {
+    color: #1abc9c;
+  }
+  30% {
+    color: #d35400;
+  }
+  40% {
+    color: blue;
+  }
+  50% {
+    color: #34495e;
+  }
+  60% {
+    color: blue;
+  }
+  70% {
+    color: #2980b9;
+  }
+  80% {
+    color: #f1c40f;
+  }
+  90% {
+    color: #2980b9;
+  }
+  100% {
+    color: pink;
+  }
+}
+
 #board {
   background-image: linear-gradient(white 10%, rgb(255, 157, 0));
   border: 1px dashed;
 }
+
 .header {
   margin-top: 30px;
 }
@@ -69,6 +116,7 @@ body {
   overflow-y: none;
 }
 h2 {
+  color: white;
   text-align: center;
   font-size: 32px;
   font-weight: 600;
@@ -140,6 +188,7 @@ h2 {
 
 .userScore {
   display: none;
+  color: white;
   font-size: 24px;
   margin: 10px;
   font-weight: 500;
@@ -267,5 +316,11 @@ h2 {
   }
   50% {
     transform: rotate(50deg);
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .stick-figure {
+    display: none;
   }
 }
