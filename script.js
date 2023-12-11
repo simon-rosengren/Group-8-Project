@@ -111,7 +111,7 @@ function update() {
   //Draws the score on the screen as white text 45px in size in the top left corner
   context.fillStyle = "black";
   context.font = "45px sans-serif";
-  context.fillText(score, boardWidth / 2, 80);
+  context.fillText(score, (boardWidth / 2) - 20, 120);
 }
 
 //Creates new pipes to be rendered
