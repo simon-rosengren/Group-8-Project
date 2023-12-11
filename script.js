@@ -75,6 +75,8 @@ window.onload = function () {
   topPipeImg.src = "./assets/tpipe.png";
 };
 
+
+
 //function that is updating the content on the board by calling itself on each frame update
 function update() {
   //stop running this function when the game is over
@@ -191,6 +193,7 @@ function movePlayer(e) {
   //Keys that will move the player
   if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
     // negative values move the player upwards on the screen
+    e.preventDefault()
     velocityY = -10;
   }
 }

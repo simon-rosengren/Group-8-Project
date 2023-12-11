@@ -11,7 +11,8 @@ body {
 }
 
 #board {
-  background-image: linear-gradient(white 10%, rgb(255, 157, 0))
+  background-image: linear-gradient(white 10%, rgb(255, 157, 0));
+  border: 1px dashed;
 }
 .header {
   margin-top: 30px;
@@ -165,12 +166,11 @@ h2 {
 
 .stick-figure img.face {
   position: absolute;
-  top: -20%;
+  top: -16%;
   left: 50%;
   transform: translateX(-50%);
   width: 50px;
   height: 80px;
-  border-radius: 50%;
 }
 
 .stick-figure div {
@@ -190,9 +190,9 @@ h2 {
 
 .stick-figure-body {
   top: 40px;
-  left: 50%;
+  left: 49%;
   transform: translateX(-50%);
-  width: 20px;
+  width: 29px;
   height: 70px;
 }
 
