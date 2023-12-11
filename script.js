@@ -1,7 +1,7 @@
 //board
 let board;
-let boardWidth = 1000;
-let boardHeight = 640;
+let boardWidth = window.innerWidth;
+let boardHeight = window.innerHeight;
 let context;
 
 //player
@@ -28,11 +28,12 @@ let pipeInterval;
 
 let topPipeImg;
 let randomImageIndex;
-const imageArray = [
-  "./assets/pipe1.png",
-  "./assets/pipe2.png",
-  "./assets/pipe3.png",
-];
+let imageArray = [];
+
+// Adding all pipe paths into array
+for (let i = 1; i <= 17; i++) {
+  imageArray.push(`./assets/pipe${i}.png`);
+}
 
 //physics
 let velocityX = -5; //pipes moving left speed
@@ -46,14 +47,17 @@ let gameOver = false;
 //score value that will increase when the player passes a pipe
 let score = 0;
 
-//Event Listener variables
+// Saved player name
+let savedPlayerName = loadPlayerName();
+
+// Other elements
+let playerName = document.querySelector("#playerName");
 let modalContent = document.querySelector("#menuModal");
 let playAgainBtn = document.querySelector("#playAgainBtn");
 let leaderboardBtn = document.querySelector("#leaderboardBtn");
-let buttonContainer = document.querySelector(".button-container");
+let scoreForm = document.querySelector(".score-form");
 let submitBtn = document.querySelector("#submitBtn");
-let successText = document.querySelector("#successText");
-let input = document.querySelector("#playerName");
+let successText = document.querySelector("#score-submitted");
 let userScore = document.querySelector(".userScore");
 
 //function that is updating the content on the board by calling itself on each frame update
@@ -111,7 +115,7 @@ function update() {
   //Draws the score on the screen as white text 45px in size in the top left corner
   context.fillStyle = "black";
   context.font = "45px sans-serif";
-  context.fillText(score, (boardWidth / 2) - 20, 120);
+  context.fillText(score, (boardWidth / 2) - 20, 180);
 }
 
 //Creates new pipes to be rendered
@@ -186,31 +190,43 @@ function detectCollision(a, b) {
   ); //a's bottom left corner passes b's top left corner
 }
 
-function submitScore() {
+// Needs to be async and check the server response
+async function submitScore() {
   // Get data from the input field
-  let name = document.querySelector("#playerName").value;
-  // Send information to back end with name and score
-  fetch(
-    `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${name}&score=${score}`
-  );
+  let name = playerName.value;
+  if (name === "") {
+    // The input is empty
+    alert("Please enter a name, don't be shy!.");
 
-  document.querySelector("#playerName").style.display = "none";
-  submitBtn.style.display = "none";
-  successText.style.display = "block";
-  successText.textContent = "Score Submitted Successfully!";
-
-  handleNameInput(name);
-}
-
-function handleNameInput(name) {
-  if (localStorage.getItem("name")) {
-    input.value = name;
   } else {
-    localStorage.setItem("name", name);
+    
+    try {
+      // Send information to the backend with name and score
+      let response = await fetch(
+        `https://wp.arashbesharat.com/wp-json/leaderboard/v1/submit-score?name=${name}&score=${score}`
+      );
+
+      if (response.ok) {
+        // Server response is 200 OK
+        console.log("Score submitted successfully!");
+        scoreForm.style.display = 'none';
+        successText.style.display = 'block';
+        savePlayerName(name);
+      } else {
+        // Server returned an error status code
+        console.error(`Error: ${response.status} - ${response.statusText}`);
+        // Handle the error as needed
+      }
+    } catch (error) {
+      // An exception occurred during the fetch
+      console.error("Fetch error:", error);
+      // Handle the error as needed
+    }
   }
 }
 
 function gameStart() {
+  successText.style.display = 'none';
   clearInterval(pipeInterval);
   //calls the update function on window load to start the game
   requestAnimationFrame(update);
@@ -222,8 +238,6 @@ function gameStart() {
   document.addEventListener("keydown", movePlayer);
 
   modalContent.style.display = "none";
-
-  successText.style.display = "none";
 
   //resets the game
   if (gameOver) {
@@ -244,7 +258,7 @@ function gameStart() {
 
 function showGameOver() {
   modalContent.style.display = "block";
-  buttonContainer.style.display = "flex";
+  scoreForm.style.display = 'flex';
   document.querySelector("#playerName").style.display = "block";
   submitBtn.style.display = "block";
   userScore.style.display = "block";
@@ -257,6 +271,17 @@ leaderboardBtn.addEventListener("click", function () {
   document.location.href = "./leaderboard.html";
 });
 
+// Save player name
+function savePlayerName(playerName)
+{
+  localStorage.setItem('playerName', playerName)
+}
+
+// Load player name
+function loadPlayerName()
+{
+  return localStorage.getItem('playerName');
+}
 submitBtn.addEventListener("click", submitScore);
 
 //initialization of the game, this runs when the window is loaded
@@ -285,7 +310,5 @@ window.onload = function () {
 
   //adds the image to the top pipe
   topPipeImg = new Image();
-  topPipeImg.src = "./assets/topppipe.png";
-
-  input.value = localStorage.getItem("name");
+  topPipeImg.src = "./assets/toppipe.png";
 };

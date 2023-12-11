@@ -11,13 +11,15 @@ body {
 }
 
 h1 {
-  margin-top: 40px;
-  font-size: 60px;
-  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  font-size: 4rem;
+  margin-top: 2%;
   color: #313131;
   font-weight: bold;
   -webkit-animation: colorchange 20s infinite alternate;
-  margin-bottom: 2rem;
 }
 
 @-webkit-keyframes colorchange {
@@ -58,7 +60,7 @@ h1 {
 
 #board {
   background-image: linear-gradient(white 10%, rgb(255, 157, 0));
-  border: 1px dashed;
+  border: none;
 }
 
 .header {
@@ -122,19 +124,23 @@ h2 {
   font-weight: 600;
   margin-bottom: 20px;
 }
-.button-container {
+.score-form {
   display: none;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+}
+
+#score-submitted {
+  padding: 12px 0 12px 0;
+  color: #fff;
 }
 
 #playerName {
-  padding: 8px;
-  margin-right: 10px;
-  font-size: 16px;
+  padding: 9px;
   border: 2px solid #4caf50;
   border-radius: 5px;
+  max-width: 136px;
+  font-size: 14px;
 }
 
 #submitBtn {
@@ -147,6 +153,7 @@ h2 {
   font-size: 16px;
   transition-duration: 0.4s;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin-right: 2px;
 }
 
 #submitBtn:hover {
@@ -229,12 +236,12 @@ h2 {
 
 .left-stick {
   left: 5%;
-  bottom: 35%; /* Adjust the distance from the bottom as needed */
+  top: 10%; /* Adjust the distance from the bottom as needed */
 }
 
 .right-stick {
   right: 5%;
-  bottom: 35%; /* Adjust the distance from the bottom as needed */
+  top: 10%; /* Adjust the distance from the bottom as needed */
 }
 
 .stick-figure-body {
@@ -322,5 +329,8 @@ h2 {
 @media only screen and (max-width: 767px) {
   .stick-figure {
     display: none;
+  }
+  h1 {
+    font-size: 3rem;
   }
 }

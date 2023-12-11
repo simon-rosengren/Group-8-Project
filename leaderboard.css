@@ -51,7 +51,6 @@ img {
 .buttton {
   display: flex;
   justify-content: center;
-  margin-right: 100px;
 }
 button {
   width: 200px;
