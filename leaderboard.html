@@ -3,53 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Leaderboard</title>
     <link rel="stylesheet" href="leaderboard.css" />
   </head>
   <body>
-    <div class="buttton">
+    <div class="button-container">
       <button type="button" id="homeBtn"><span></span>BACK TO GAME</button>
     </div>
     <div class="box">
       <div class="leaderboard">
         <div class="table">
           <table class="custom-table">
-            <tbody>
-              <tr class="player" id="player0">
-                <td><img class="medals" src="./assets/medal.ico" alt="" /></td>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Name</th>
+                <th>Score</th>
               </tr>
-              <tr class="player" id="player1">
-                <td>
-                  <img class="medals" src="./assets/medal-2.ico" alt="" />
-                </td>
-              </tr>
-              <tr class="player" id="player2">
-                <td>
-                  <img class="medals" src="./assets/medal-3.ico" alt="" />
-                </td>
-              </tr>
-              <tr class="player" id="player3">
-                <td>4</td>
-              </tr>
-              <tr class="player" id="player4">
-                <td>5</td>
-              </tr>
-              <tr class="player" id="player5">
-                <td>6</td>
-              </tr>
-              <tr class="player" id="player6">
-                <td>7</td>
-              </tr>
-              <tr class="player" id="player7">
-                <td>8</td>
-              </tr>
-              <tr class="player" id="player8">
-                <td>9</td>
-              </tr>
-              <tr class="player" id="player9">
-                <td>10</td>
-              </tr>
-            </tbody>
+            </thead>
+            <tbody id="leaderboardBody"></tbody>
           </table>
         </div>
       </div>

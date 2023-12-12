@@ -17,13 +17,13 @@
     <div class="gameContainer">
       <div id="menuModal" class="modal">
         <div class="modal-content">
-          <h2>Welcome</h2>
+          <h2 id="heading">Welcome</h2>
           <p class="userScore">Score: 0</p>
           <div class="score-form">
             <input type="text" id="playerName" placeholder="Enter your name" />
             <button id="submitBtn">✓</button>
           </div>
-          <p id="score-submitted" style="display:none">Score Submitted!</p>
+          <p id="score-submitted" style="display: none">Score Submitted!</p>
           <button id="playAgainBtn">Play</button>
           <button id="leaderboardBtn">Leaderboard</button>
         </div>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="stick-figure left-stick">
-      <img src="assets/khadija.png" class="face" alt="">
+      <img src="assets/khadija.png" class="face" alt="" />
       <div class="stick-figure-body"></div>
       <div class="left-leg"></div>
       <div class="right-leg"></div>
@@ -42,13 +42,21 @@
     </div>
 
     <div class="stick-figure right-stick">
-      <img src="assets/eskil.png" class="face" alt="">
+      <img src="assets/eskil.png" class="face" alt="" />
       <div class="stick-figure-body"></div>
       <div class="left-leg"></div>
       <div class="right-leg"></div>
       <div class="left-arm"></div>
       <div class="right-arm"></div>
     </div>
+    <audio
+      id="backgroundSound"
+      src="sounds/background.mp3"
+      preload="auto"
+    ></audio>
+    <audio id="jumpSound" src="sounds/jump.mp3" preload="auto"></audio>
+    <audio id="loseSound" src="sounds/lose.mp3" preload="auto"></audio>
+    <audio id="startSound" src="sounds/start.mp3" preload="auto"></audio>
     <script src="script.js"></script>
   </body>
 </html>

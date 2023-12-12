@@ -14,9 +14,10 @@ h1 {
   position: absolute;
   left: 0;
   right: 0;
+  margin: 0 auto;
   z-index: 5;
-  font-size: 4rem;
-  margin-top: 2%;
+  margin-top: 40px;
+  font-size: 60px;
   color: #313131;
   font-weight: bold;
   -webkit-animation: colorchange 20s infinite alternate;
@@ -60,7 +61,7 @@ h1 {
 
 #board {
   background-image: linear-gradient(white 10%, rgb(255, 157, 0));
-  border: none;
+  border: 1px dashed;
 }
 
 .header {
@@ -166,15 +167,15 @@ h2 {
   align-items: center;
   background-color: #fefefe;
   position: fixed;
-  top: 50%; /* Center vertically */
-  left: 50%; /* Center horizontally */
+  top: 45%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  padding: 30px;
-  /* border: 1px solid #888; */
+  padding: 60px;
+  border: 1px solid #888;
   width: 80%;
-  max-width: 400px;
+  max-width: 440px;
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 1);
 }
 
 /* CHANGE */
@@ -331,6 +332,6 @@ h2 {
     display: none;
   }
   h1 {
-    font-size: 3rem;
+    font-size: 40px;
   }
 }

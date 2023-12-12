@@ -1,3 +1,12 @@
+// sounds
+let backgroundSound = document.getElementById("backgroundSound");
+backgroundSound.volume = 0.1;
+let jumpSound = document.getElementById("jumpSound");
+let loseSound = document.getElementById("loseSound");
+loseSound.volume = 0.5;
+let startSound = document.getElementById("startSound");
+startSound.volume = 0.5;
+
 //board
 let board;
 let boardWidth = window.innerWidth;
@@ -172,6 +181,8 @@ function placePipes() {
 
 //Takes event parameter to move the player
 function movePlayer(e) {
+  jumpSound.currentTime = 0; // Reset the sound to the beginning
+  jumpSound.play();
   //Keys that will move the player
   if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
     // negative values move the player upwards on the screen
@@ -197,9 +208,7 @@ async function submitScore() {
   if (name === "") {
     // The input is empty
     alert("Please enter a name, don't be shy!.");
-
   } else {
-    
     try {
       // Send information to the backend with name and score
       let response = await fetch(
@@ -209,8 +218,8 @@ async function submitScore() {
       if (response.ok) {
         // Server response is 200 OK
         console.log("Score submitted successfully!");
-        scoreForm.style.display = 'none';
-        successText.style.display = 'block';
+        scoreForm.style.display = "none";
+        successText.style.display = "block";
         savePlayerName(name);
       } else {
         // Server returned an error status code
@@ -226,7 +235,10 @@ async function submitScore() {
 }
 
 function gameStart() {
-  successText.style.display = 'none';
+  startSound.play();
+  backgroundSound.currentTime = 0; // Reset the sound to the beginning
+  backgroundSound.play();
+  successText.style.display = "none";
   clearInterval(pipeInterval);
   //calls the update function on window load to start the game
   requestAnimationFrame(update);
@@ -257,12 +269,19 @@ function gameStart() {
 }
 
 function showGameOver() {
+  document.querySelector("#heading").innerText = 'Game Over'
+  playAgainBtn.innerText = 'Play again'
+  loseSound.play();
+  backgroundSound.pause();
   modalContent.style.display = "block";
-  scoreForm.style.display = 'flex';
-  document.querySelector("#playerName").style.display = "block";
-  submitBtn.style.display = "block";
-  userScore.style.display = "block";
-  userScore.textContent = `Score: ${score}`;
+  if(score > 0)
+  {
+    scoreForm.style.display = "flex";
+    document.querySelector("#playerName").style.display = "block";
+    submitBtn.style.display = "block";
+    userScore.style.display = "block";
+    userScore.textContent = `Score: ${score}`;
+  }
 }
 
 playAgainBtn.addEventListener("click", gameStart);
@@ -272,15 +291,13 @@ leaderboardBtn.addEventListener("click", function () {
 });
 
 // Save player name
-function savePlayerName(playerName)
-{
-  localStorage.setItem('playerName', playerName)
+function savePlayerName(playerName) {
+  localStorage.setItem("playerName", playerName);
 }
 
 // Load player name
-function loadPlayerName()
-{
-  return localStorage.getItem('playerName');
+function loadPlayerName() {
+  return localStorage.getItem("playerName");
 }
 submitBtn.addEventListener("click", submitScore);
 

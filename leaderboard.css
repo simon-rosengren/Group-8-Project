@@ -57,7 +57,7 @@ button {
   padding: 15px 0;
   text-align: center;
   margin: 20px 10px;
-  border-radius: 25px;
+  border-radius: 10px;
   font-weight: bold;
   border: 2px solid greenyellow;
   background: transparent;
@@ -70,7 +70,7 @@ span {
   background: greenyellow;
   height: 100%;
   width: 0;
-  border-radius: 25px;
+  border-radius: 10px;
   position: absolute;
   left: 0;
   bottom: 0;
@@ -82,4 +82,41 @@ button:hover span {
 }
 button:hover {
   border: none;
+}
+
+.button-container {
+  text-align: center;
+  margin-top: 20px; /* Adjust the margin as needed */
+}
+
+#homeBtn {
+  /* Add any specific button styles here if needed */
+}
+
+.medal {
+  text-align: center;
+}
+
+.medal.gold::before {
+  content: '\1F947'; /* Unicode for gold medal */
+  font-size: 24px;
+  display: block;
+}
+
+.medal.silver::before {
+  content: '\1F948'; /* Unicode for silver medal */
+  font-size: 24px;
+  display: block;
+}
+
+.medal.bronze::before {
+  content: '\1F949'; /* Unicode for bronze medal */
+  font-size: 24px;
+  display: block;
+}
+
+#leaderboardBody tr:nth-child(1) td:nth-child(1),
+#leaderboardBody tr:nth-child(2) td:nth-child(1),
+#leaderboardBody tr:nth-child(3) td:nth-child(1) {
+  display: none;
 }
