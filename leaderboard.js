@@ -9,7 +9,7 @@ homeBtn.addEventListener("click", function () {
 });
 
 function updateLeaderboard(data) {
-  const leaderboardBody = document.getElementById("leaderboardBody");
+  const leaderboardBody = document.querySelector("#leaderboardBody");
   leaderboardBody.innerHTML = ""; // Clear existing rows
 
   for (let i = 0; i < Math.min(data.length, 10); i++) {

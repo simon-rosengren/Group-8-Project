@@ -1,10 +1,14 @@
+//----------
+// Variables
+//----------
+
 // sounds
-let backgroundSound = document.getElementById("backgroundSound");
+let backgroundSound = document.querySelector("#backgroundSound");
 backgroundSound.volume = 0.1;
-let jumpSound = document.getElementById("jumpSound");
-let loseSound = document.getElementById("loseSound");
+let jumpSound = document.querySelector("#jumpSound");
+let loseSound = document.querySelector("#loseSound");
 loseSound.volume = 0.5;
-let startSound = document.getElementById("startSound");
+let startSound = document.querySelector("#startSound");
 startSound.volume = 0.5;
 
 //board
@@ -14,12 +18,11 @@ let boardHeight = window.innerHeight;
 let context;
 
 //player
-let playerWidth = 34; //width/height ratio = 408/228 = 17/12
+let playerWidth = 34; //width/height ratio = 17/12
 let playerHeight = 24;
 let playerX = boardWidth / 8;
 let playerY = boardHeight / 2;
 let playerImg;
-
 let player = {
   x: playerX,
   y: playerY,
@@ -29,12 +32,11 @@ let player = {
 
 //pipes
 let pipeArray = [];
-let pipeWidth = 64; //width/height ratio = 384/3072 = 1/8
+let pipeWidth = 64; //width/height ratio = 1/8
 let pipeHeight = 512;
 let pipeX = boardWidth;
 let pipeY = 0;
 let pipeInterval;
-
 let topPipeImg;
 let randomImageIndex;
 let imageArray = [];
@@ -44,12 +46,20 @@ for (let i = 1; i <= 17; i++) {
   imageArray.push(`./assets/pipe${i}.png`);
 }
 
+// Query selectors for menu elements
+let playerName = document.querySelector("#playerName");
+let modalContent = document.querySelector("#menuModal");
+let playAgainBtn = document.querySelector("#playAgainBtn");
+let leaderboardBtn = document.querySelector("#leaderboardBtn");
+let scoreForm = document.querySelector("#scoreForm");
+let submitBtn = document.querySelector("#submitBtn");
+let successText = document.querySelector("#scoreSubmitted");
+let userScore = document.querySelector("#userScore");
+
 //physics
 let velocityX = -5; //pipes moving left speed
-//the player jump speed (is changed in)
-let velocityY = 0;
-//sets the gravity for the player (the speed at which the player falls down)
-let gravity = 0.8;
+let velocityY = 0; //the player jump speed (changes in update and movebird)
+let gravity = 0.8; //sets the gravity for the player (the speed at which the player falls down)
 
 //variable to check and decide when the game is over
 let gameOver = false;
@@ -59,23 +69,19 @@ let score = 0;
 // Saved player name
 let savedPlayerName = loadPlayerName();
 
-// Other elements
-let playerName = document.querySelector("#playerName");
-let modalContent = document.querySelector("#menuModal");
-let playAgainBtn = document.querySelector("#playAgainBtn");
-let leaderboardBtn = document.querySelector("#leaderboardBtn");
-let scoreForm = document.querySelector(".score-form");
-let submitBtn = document.querySelector("#submitBtn");
-let successText = document.querySelector("#score-submitted");
-let userScore = document.querySelector(".userScore");
+
+//----------------
+// Business Logic
+//----------------
 
 //function that is updating the content on the board by calling itself on each frame update
 function update() {
-  //stop running this function when the game is over
+  //stop running this function when the game is over and shoe the game over menu
   if (gameOver) {
     showGameOver();
     return;
   }
+
   //calls this function again when the frame updates
   requestAnimationFrame(update);
   context.clearRect(0, 0, board.width, board.height);
@@ -88,6 +94,7 @@ function update() {
   //apply gravity to the player and limit the player to no be able to go above the canvas
   velocityY += gravity;
   player.y = Math.max(player.y + velocityY, 0);
+  
   //draws the player on the screen using the image asset, x and y values, and the width and height of player character
   context.drawImage(playerImg, player.x, player.y, player.width, player.height);
 
@@ -133,10 +140,6 @@ function placePipes() {
   if (gameOver) {
     return;
   }
-
-  //(0-1) * pipeHeight/2.
-  // 0 -> -128 (pipeHeight/4)
-  // 1 -> -128 - 256 (pipeHeight/4 - pipeHeight/2) = -3/4 pipeHeight
 
   //To make the Pipes Y position be different each time we have to randomize the Y position
   //Takes value of pipeY and depending on the outcome of Math.random will place the pipe further up or down on the screen
@@ -184,7 +187,7 @@ function movePlayer(e) {
   jumpSound.currentTime = 0; // Reset the sound to the beginning
   jumpSound.play();
   //Keys that will move the player
-  if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX") {
+  if (e.code == "Space" || e.code == "ArrowUp" || e.code == "KeyX" || (e.type === "touchstart" && e.touches && e.touches.length > 0)) {
     // negative values move the player upwards on the screen
     e.preventDefault();
     velocityY = -10;
@@ -200,6 +203,21 @@ function detectCollision(a, b) {
     a.y + a.height > b.y
   ); //a's bottom left corner passes b's top left corner
 }
+
+// Save player name
+function savePlayerName(playerName) {
+  localStorage.setItem("playerName", playerName);
+}
+
+// Load player name
+function loadPlayerName() {
+  return localStorage.getItem("playerName");
+}
+
+
+//-------------------------
+// DOM Updates / Rendering
+//-------------------------
 
 // Needs to be async and check the server response
 async function submitScore() {
@@ -235,6 +253,7 @@ async function submitScore() {
 }
 
 function gameStart() {
+  playerName.value = "";
   startSound.play();
   backgroundSound.currentTime = 0; // Reset the sound to the beginning
   backgroundSound.play();
@@ -269,6 +288,7 @@ function gameStart() {
 }
 
 function showGameOver() {
+  playerName.value = loadPlayerName();
   document.querySelector("#heading").innerText = 'Game Over'
   playAgainBtn.innerText = 'Play again'
   loseSound.play();
@@ -277,12 +297,17 @@ function showGameOver() {
   if(score > 0)
   {
     scoreForm.style.display = "flex";
-    document.querySelector("#playerName").style.display = "block";
+    playerName.style.display = "block";
     submitBtn.style.display = "block";
     userScore.style.display = "block";
     userScore.textContent = `Score: ${score}`;
   }
 }
+
+
+//-----------------
+// Event Listeners
+//-----------------
 
 playAgainBtn.addEventListener("click", gameStart);
 
@@ -290,21 +315,16 @@ leaderboardBtn.addEventListener("click", function () {
   document.location.href = "./leaderboard.html";
 });
 
-// Save player name
-function savePlayerName(playerName) {
-  localStorage.setItem("playerName", playerName);
-}
-
-// Load player name
-function loadPlayerName() {
-  return localStorage.getItem("playerName");
-}
 submitBtn.addEventListener("click", submitScore);
 
-//initialization of the game, this runs when the window is loaded
+
+//-------------------
+// Initial Rendering
+//-------------------
+
 window.onload = function () {
   //gets the canvas element
-  board = document.getElementById("board");
+  board = document.querySelector("#board");
   //sets the board height to the value of boardHeight
   board.height = boardHeight;
   //sets the board width to the value of boardWidth
